@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notification Permission</title>
+    <title>Processing...</title>
     <style>
-        body { font-family: sans-serif; background-color: #666; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .modal { background: #fff; padding: 20px; border-radius: 20px; text-align: center; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        .icon { font-size: 30px; color: #1a43bf; margin-bottom: 10px; }
-        h3 { margin: 10px 0; font-size: 18px; color: #000; }
-        .btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; }
-        .btn-allow { background-color: #e0e8ff; color: #1a43bf; font-weight: bold; }
-        .btn-deny { background-color: #e0e8ff; color: #555; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        p { color: #555; font-size: 14px; }
     </style>
 </head>
 <body>
+    <p>Please click <b>"Allow"</b> above to receive updates...</p>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-messaging.js";
 
-<div class="modal">
-    <div class="icon">🔔</div>
-    <h3>Allow <b>Grant Push Notification Permission</b> to send you notifications?</h3>
-    <button class="btn btn-allow" onclick="requestPermission()">Allow</button>
-    <button class="btn btn-deny" onclick="denyPermission()">Don't allow</button>
-</div>
+        // Apni Firebase Config yahan paste karein
+        const firebaseConfig = {
+          apiKey: "YOUR_API_KEY",
+          projectId: "YOUR_PROJECT_ID",
+          messagingSenderId: "YOUR_SENDER_ID",
+          appId: "YOUR_APP_ID"
+        };
 
-<!-- Firebase SDKs -->
-<script type="module" src="app.js"></script>
-<script>
-    function denyPermission() {
-        alert("Notification permission denied. You can close this page.");
-        // Yahan aap user ko wapas apne blogger blog par redirect kar sakte hain
-        // window.location.href = "https://yourblog.blogspot.com";
-    }
-</script>
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        // Page load hote hi automatically native prompt le aao
+        window.onload = function() {
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    // VAPID key yahan dalein
+                    getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY_HERE' }).then((currentToken) => {
+                        if (currentToken) {
+                            console.log("Token saved");
+                            window.close(); // Allow karte hi popup khud band ho jayega
+                        }
+                    });
+                } else {
+                    window.close(); // Block karne par bhi khud band ho jayega
+                }
+            });
+        };
+    </script>
 </body>
 </html>
