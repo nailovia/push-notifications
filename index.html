@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Permission</title>
+    <style>
+        body { font-family: sans-serif; background-color: #666; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .modal { background: #fff; padding: 20px; border-radius: 20px; text-align: center; width: 300px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .icon { font-size: 30px; color: #1a43bf; margin-bottom: 10px; }
+        h3 { margin: 10px 0; font-size: 18px; color: #000; }
+        .btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 10px; font-size: 14px; cursor: pointer; }
+        .btn-allow { background-color: #e0e8ff; color: #1a43bf; font-weight: bold; }
+        .btn-deny { background-color: #e0e8ff; color: #555; }
+    </style>
+</head>
+<body>
+
+<div class="modal">
+    <div class="icon">🔔</div>
+    <h3>Allow <b>Grant Push Notification Permission</b> to send you notifications?</h3>
+    <button class="btn btn-allow" onclick="requestPermission()">Allow</button>
+    <button class="btn btn-deny" onclick="denyPermission()">Don't allow</button>
+</div>
+
+<!-- Firebase SDKs -->
+<script type="module" src="app.js"></script>
+<script>
+    function denyPermission() {
+        alert("Notification permission denied. You can close this page.");
+        // Yahan aap user ko wapas apne blogger blog par redirect kar sakte hain
+        // window.location.href = "https://yourblog.blogspot.com";
+    }
+</script>
+</body>
+</html>
